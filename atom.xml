@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-04-14T02:31:32.665Z</updated>
+  <updated>2020-04-14T03:09:07.925Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,12 +21,24 @@
     <link href="http://yoursite.com/2020/04/14/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%88%B6%E4%BD%9C%E5%AE%8C%E6%88%90%E5%90%8E%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/"/>
     <id>http://yoursite.com/2020/04/14/小程序制作完成后遇到的问题汇总/</id>
     <published>2020-04-14T02:31:32.000Z</published>
-    <updated>2020-04-14T02:31:32.665Z</updated>
+    <updated>2020-04-14T03:09:07.925Z</updated>
+    
+    <content type="html"><![CDATA[<p>近期做了一款信息发布类小程序，也是第一次制作小程序。考虑到以后可能会跨平台，选择了taro进行开发。<br>制作完成后测试阶段遇到了以下几个问题，记录备案。</p><h2 id="1-图片压缩："><a href="#1-图片压缩：" class="headerlink" title="1. 图片压缩："></a>1. 图片压缩：<br></h2><p>客户反应有几个机型不能发帖，当然我们知道这跟机型一般没毛关系。查看控制台发现上传图片过大发帖失败。<br>后端采用了php，上传文件限制为1M。于是使用了<a href="https://developers.weixin.qq.com/miniprogram/dev/api/media/image/wx.compressImage.html" target="_blank" rel="noopener">微信官方的图片压缩API</a>，但是文件大小不可控，无法保证图片压倒1M以内。<br><br><br>后面采取了网上的方法，用canvas绘制后保存。<a href="https://www.jianshu.com/p/1b8a1e96a6d5" target="_blank" rel="noopener">微信小程序图片压缩</a>，问题解决，美滋滋。可是事情往往没这么简单，这个方法强制把图片压缩到400PX以下，客户说我上传的图片都是锯齿，不清晰。于是又找了一个比较科学的计算压缩图片长宽的方式<a href="https://blog.csdn.net/Young_Gao/article/details/88183442" target="_blank" rel="noopener">小程序 压缩图片并上传</a>，结果压完还是文件超大。<br><br><br>之后跟后台沟通是不是1M太小了，现在的手机拍完动不动就5000像素，后台把限制加到了2M。可图片还是发不出去，这回提示图片内容违规。开始以为后台代码写错了，后来后台查阅文档发现微信的图片内容检测API只能接受1M一下的图片。<br><br><br>这我就很不开心了，后来静下心来寻找问题原因，发现有些图片根本就不到1M，压缩后由于我清晰度参数没填，使用了默认的无压缩，所以分辨率降低后反而文件变大。加上之前偷懒没判断文件大小……<br><br>最终方案采取判断文件大小是否超过1M，超过则按后面的方式压缩，完美解决。<br><br><br><strong>结论</strong> 参考<a href="https://blog.csdn.net/Young_Gao/article/details/88183442" target="_blank" rel="noopener">小程序 压缩图片并上传</a>就完了<br></p><h2 id="2-内容审核"><a href="#2-内容审核" class="headerlink" title="2. 内容审核"></a>2. 内容审核</h2><p>这没啥说的，让后台接入<a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/sec-check/security.imgSecCheck.html" target="_blank" rel="noopener">微信内容安全</a>就行了。有的审核人员会检测这部分。<br><br>有一次小版本升级提审被拒绝了，原因是没做内容审核。可是后台明明接入了API也测试过了，于是没做改动再次提审，居然就过审了，心想一定是之前的人瞎审，就没在意。后来发现某帖子下面有个回复公然写着XJP…原来是评论没审核，赶紧让后台加上了。</p>]]></content>
     
     <summary type="html">
     
+      
+      
+        &lt;p&gt;近期做了一款信息发布类小程序，也是第一次制作小程序。考虑到以后可能会跨平台，选择了taro进行开发。&lt;br&gt;制作完成后测试阶段遇到了以下几个问题，记录备案。&lt;/p&gt;
+&lt;h2 id=&quot;1-图片压缩：&quot;&gt;&lt;a href=&quot;#1-图片压缩：&quot; class=&quot;headerlink&quot;
+      
+    
     </summary>
     
+    
+      <category term="微信小程序" scheme="http://yoursite.com/tags/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/"/>
+    
+      <category term="ta&#39;ro" scheme="http://yoursite.com/tags/ta-ro/"/>
     
   </entry>
   
