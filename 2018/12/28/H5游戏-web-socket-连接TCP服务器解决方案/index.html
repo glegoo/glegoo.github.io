@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.6.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.6.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.6.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.6.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.6.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="伴随着H5技术越来越成熟，微信小程序以及小游戏的兴起，有越来越多的需求将现有的应用程序轻量化。此前公司需求将游戏APP端移植到H5，就产生了如下问题：H5无法与原有的TCP服务器直接连接，只能采用web-socket。将原有的TCP服务器改写也不太现实。除了耗时耗力以外，我们还希望客户端与H5的玩家可以同服游戏。所以需要一个中转工具来实现web-socket与tcp的互连。由于移植工作只有我一人在">
+<meta name="keywords" content="web-socket,tcp,html5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="H5游戏(web-socket)连接TCP服务器解决方案">
+<meta property="og:url" content="http://yoursite.com/2018/12/28/H5游戏-web-socket-连接TCP服务器解决方案/index.html">
+<meta property="og:site_name" content="glegoo">
+<meta property="og:description" content="伴随着H5技术越来越成熟，微信小程序以及小游戏的兴起，有越来越多的需求将现有的应用程序轻量化。此前公司需求将游戏APP端移植到H5，就产生了如下问题：H5无法与原有的TCP服务器直接连接，只能采用web-socket。将原有的TCP服务器改写也不太现实。除了耗时耗力以外，我们还希望客户端与H5的玩家可以同服游戏。所以需要一个中转工具来实现web-socket与tcp的互连。由于移植工作只有我一人在">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/h5yxws/01.png">
+<meta property="og:image" content="http://yoursite.com/images/h5yxws/02.png">
+<meta property="og:updated_time" content="2020-04-14T02:23:14.947Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="H5游戏(web-socket)连接TCP服务器解决方案">
+<meta name="twitter:description" content="伴随着H5技术越来越成熟，微信小程序以及小游戏的兴起，有越来越多的需求将现有的应用程序轻量化。此前公司需求将游戏APP端移植到H5，就产生了如下问题：H5无法与原有的TCP服务器直接连接，只能采用web-socket。将原有的TCP服务器改写也不太现实。除了耗时耗力以外，我们还希望客户端与H5的玩家可以同服游戏。所以需要一个中转工具来实现web-socket与tcp的互连。由于移植工作只有我一人在">
+<meta name="twitter:image" content="http://yoursite.com/images/h5yxws/01.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="glegoo" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/28/H5游戏-web-socket-连接TCP服务器解决方案/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>H5游戏(web-socket)连接TCP服务器解决方案 | glegoo</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?eba657066bacb7bc0148825c27994b83";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">glegoo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">blog</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/28/H5游戏-web-socket-连接TCP服务器解决方案/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="glegoo">
+      <meta itemprop="description" content="chengwei1123@gmail.com">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="glegoo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">H5游戏(web-socket)连接TCP服务器解决方案
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-28 14:04:08" itemprop="dateCreated datePublished" datetime="2018-12-28T14:04:08+08:00">2018-12-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-14 10:23:14" itemprop="dateModified" datetime="2020-04-14T10:23:14+08:00">2020-04-14</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>伴随着H5技术越来越成熟，微信小程序以及小游戏的兴起，有越来越多的需求将现有的应用程序轻量化。此前公司需求将游戏APP端移植到H5，就产生了如下问题：<strong>H5无法与原有的TCP服务器直接连接，只能采用web-socket</strong>。<br><br>将原有的TCP服务器改写也不太现实。除了耗时耗力以外，我们还希望客户端与H5的玩家可以同服游戏。所以需要一个中转工具来实现web-socket与tcp的互连。由于移植工作只有我一人在做，而我又是客户端程序，对服务器代码不甚了解。于是在网上苦苦寻找之后，找到了这么一个项目。<br></p>
+<p><a href="https://github.com/andrewchambers/ws-tcp-bridge" target="_blank" rel="noopener">https://github.com/andrewchambers/ws-tcp-bridge</a></p>
+<p>非常简单直接! 按照说明中配置即可。每个TCP通信端口需要准备一个空闲的端口来做中转。每个端口需要开启两个中转程序，用于收和发。</p>
+<h1 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h1><p>我们采用在npm中安装的方式，省去配置环境变量的麻烦。此文中服务器环境为Windows。<br><a id="more"></a></p>
+<h2 id="1-安装nodejs"><a href="#1-安装nodejs" class="headerlink" title="1. 安装nodejs"></a>1. 安装nodejs</h2><p>既然用到了npm，就要先安装<a href="https://nodejs.org/zh-cn/" target="_blank" rel="noopener">nodejs</a>。安装过程不再阐述，需要注意的就是配置环境变量要勾选，省去不必要的麻烦。可以参考这篇<a href="http://www.runoob.com/nodejs/nodejs-install-setup.html" target="_blank" rel="noopener">安装教学</a>。<br></p>
+<p>装好nodejs以后，在命令行中键入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm</span><br></pre></td></tr></table></figure></p>
+<p>如果看到了帮助信息，说明安装成功。</p>
+<h2 id="2-安装ws-tcp-bridge"><a href="#2-安装ws-tcp-bridge" class="headerlink" title="2. 安装ws-tcp-bridge"></a>2. 安装ws-tcp-bridge</h2><p>命令行中键入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g ws-tcp-bridge ws-tcp-bridge</span><br></pre></td></tr></table></figure></p>
+<p>安装完成后键入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ws-tcp-bridge</span><br></pre></td></tr></table></figure></p>
+<p>看到如下内容即为安装成功</p>
+<p><img src="/images/h5yxws/01.png" alt></p>
+<h2 id="3-编辑启动批处理文件"><a href="#3-编辑启动批处理文件" class="headerlink" title="3. 编辑启动批处理文件"></a>3. 编辑启动批处理文件</h2><p>在桌面上创建一个<code>wstcpbridge.bat</code>文件，编辑其内容。列如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">start ws-tcp-bridge --method=ws2tcp --lport=27007 --rhost=127.0.0.1:17007</span><br><span class="line">start ws-tcp-bridge --method=tcp2ws --lport=17007 --rhost=ws://127.0.0.1:27007</span><br></pre></td></tr></table></figure></p>
+<p>运行成功后如图</p>
+<p><img src="/images/h5yxws/02.png" alt></p>
+<p>此时我的目标TCP端口为17007，我将27007作为中转端口（要保证该端口未占用），第一个程序用于接收来自H5的web-socket协议转发给tcp服务器，第二个程序将tcp服务器的消息转为web-socket后发送给客户端。</p>
+<p>至此转发就配置完成了。</p>
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><h2 id="异常崩溃"><a href="#异常崩溃" class="headerlink" title="异常崩溃"></a>异常崩溃</h2><p>试运行阶段期间，每隔一段时间，中转程序就会报错崩溃。经查询后发现，是由客户端的异常中断导致的。当客户端向服务器发送消息<code>C2S</code>后，服务器接收到消息并返回消息<code>S2C</code>给中转程序，期间如果客户端断开连接，则中转程序找不到刚才与服务器通信的客户端，程序崩溃。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>在npm的node_modules目录下找到源码并修改。通常情况下Windows系统的路径为<code>C:\Users\用户名\AppData\Roaming\npm\node_modules\ws-tcp-bridge\ws-tcp-bridge.js</code></p>
+<p>修改代码中所有<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ws.send(data, &#123;any&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>方法，添加错误回调<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 第三个参数为错误回调</span><br><span class="line">ws.send(data, &#123;any&#125;, function(error)&#123;&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>来规避掉客户端异常断线的问题</p>
+<p>修改后再未出现过崩溃的情况。</p>
+<h2 id="客户端IP"><a href="#客户端IP" class="headerlink" title="客户端IP"></a>客户端IP</h2><p>由于采用了中转的方式, 服务器采集到的所有客户端的IP地址都是中转程序的IP。也就是说所有客户端的IP都是相同的。如果应用中有显示用户IP的功能，且该IP为服务器提供则会出现问题。</p>
+<h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><p>可以通过淘宝API <a href="http://ip.taobao.com/service/getIpInfo.php?ip=myip" target="_blank" rel="noopener">http://ip.taobao.com/service/getIpInfo.php?ip=myip</a> 等IP查询接口来获取IP后发送给服务器</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/pay/wechat.png" alt="glegoo 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/pay/alipay.png" alt="glegoo 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/web-socket/" rel="tag"># web-socket</a>
+          
+            <a href="/tags/tcp/" rel="tag"># tcp</a>
+          
+            <a href="/tags/html5/" rel="tag"># html5</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/07/上传苹果商店authenticating-with-the-itunes-store问题解决方案/" rel="prev" title="上传苹果商店authenticating with the itunes store问题解决方案">
+                上传苹果商店authenticating with the itunes store问题解决方案 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MTg3NS8xODQyMQ=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="glegoo">
+            
+              <p class="site-author-name" itemprop="name">glegoo</p>
+              <p class="site-description motion-element" itemprop="description">chengwei1123@gmail.com</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/glegoo" title="GitHub &rarr; https://github.com/glegoo" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:chengwei1123@gmail.com" title="E-Mail &rarr; mailto:chengwei1123@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.zhihu.com/people/glegoo/activities" title="知乎 &rarr; https://www.zhihu.com/people/glegoo/activities" rel="noopener" target="_blank"><i class="fa fa-fw fa-知乎"></i>知乎</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.douban.com/people/54250291" title="豆瓣 &rarr; https://www.douban.com/people/54250291" rel="noopener" target="_blank"><i class="fa fa-fw fa-豆瓣"></i>豆瓣</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用说明"><span class="nav-number">1.</span> <span class="nav-text">使用说明</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-安装nodejs"><span class="nav-number">1.1.</span> <span class="nav-text">1. 安装nodejs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-安装ws-tcp-bridge"><span class="nav-number">1.2.</span> <span class="nav-text">2. 安装ws-tcp-bridge</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-编辑启动批处理文件"><span class="nav-number">1.3.</span> <span class="nav-text">3. 编辑启动批处理文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意事项"><span class="nav-number">2.</span> <span class="nav-text">注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#异常崩溃"><span class="nav-number">2.1.</span> <span class="nav-text">异常崩溃</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方法"><span class="nav-number">2.1.1.</span> <span class="nav-text">解决方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端IP"><span class="nav-number">2.2.</span> <span class="nav-text">客户端IP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解决办法"><span class="nav-number">2.2.1.</span> <span class="nav-text">解决办法</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">glegoo</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.6.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three-waves.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.6.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.6.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.6.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.6.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.6.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.6.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.6.0"></script>
+
+
+
+  
+
+
+
+  
+    <script type="text/javascript">
+      window.livereOptions = {
+        refer: '2018/12/28/H5游戏-web-socket-连接TCP服务器解决方案/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

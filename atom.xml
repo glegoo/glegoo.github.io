@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>glegoo</title>
+  
+  <subtitle>blog</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2020-04-14T02:31:32.665Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>glegoo</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>小程序制作完成后遇到的问题汇总</title>
+    <link href="http://yoursite.com/2020/04/14/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%88%B6%E4%BD%9C%E5%AE%8C%E6%88%90%E5%90%8E%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/"/>
+    <id>http://yoursite.com/2020/04/14/小程序制作完成后遇到的问题汇总/</id>
+    <published>2020-04-14T02:31:32.000Z</published>
+    <updated>2020-04-14T02:31:32.665Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Unity ShaderLab常用变量·语义·函数速查表</title>
+    <link href="http://yoursite.com/2019/01/09/Unity-ShaderLab-%E9%80%9F%E6%9F%A5%E8%A1%A8/"/>
+    <id>http://yoursite.com/2019/01/09/Unity-ShaderLab-速查表/</id>
+    <published>2019-01-09T01:18:49.000Z</published>
+    <updated>2020-04-14T02:23:14.947Z</updated>
+    
+    <content type="html"><![CDATA[<p>持续更新……</p><hr><h2 id="Unity内置的变换矩阵"><a href="#Unity内置的变换矩阵" class="headerlink" title="Unity内置的变换矩阵"></a>Unity内置的变换矩阵</h2><table><thead><tr><th>变量名</th><th>描述</th></tr></thead><tbody><tr><td>UNITY_MATRIX_MVP</td><td>当前的模型·观察·投影矩阵，用于将顶点/方向矢量从模型空间变换到裁剪空间</td></tr><tr><td>UNITY_MATRIX_MV</td><td>当前的模型·观察矩阵，用于将顶点顶点/方向矢量从模型空间变换到观察空间</td></tr><tr><td>UNITY_MATRIX_V</td><td>当前的观察矩阵，用于将顶点顶点/方向矢量从世界空间变换到观察空间</td></tr><tr><td>UNITY_MATRIX_P</td><td>当前的观察矩阵，用于将顶点顶点/方向矢量从观察空间变换到裁剪空间</td></tr><tr><td>UNITY_MATRIX_VP</td><td>当前的观察·投影矩阵，用于将顶点顶点/方向矢量从世界空间变换到裁剪空间</td></tr><tr><td>UNITY_MATRIX_T_MV</td><td>UNITY_MATRIX_MV 的转置矩阵</td></tr><tr><td>UNITY_MATRIX_IT_MV</td><td>UNITY_MATRIX_MV 的逆转置矩阵，用于将法线从模型空间变换到观察空间，也可用于得到 UNITY_MATRIX_MV 的逆矩阵</td></tr><tr><td>_Object2World</td><td>当前的模型矩阵，用于将顶点顶点/方向矢量从模型空间变换到世界空间</td></tr><tr><td>_World2Object</td><td>_Object2World的逆矩阵，用于将顶点顶点/方向矢量从世界空间变换到模型空间</td></tr></tbody></table><a id="more"></a><h2 id="Unity-内置的摄像机和屏幕参数"><a href="#Unity-内置的摄像机和屏幕参数" class="headerlink" title="Unity 内置的摄像机和屏幕参数"></a>Unity 内置的摄像机和屏幕参数</h2><table><thead><tr><th>变量名</th><th>类型</th><th>描述</th></tr></thead><tbody><tr><td>_WorldSpaceCameraPos</td><td>float3</td><td>该摄像机在世界空间中的位置</td></tr><tr><td>_ProjectionParams</td><td>float4</td><td>x = 1.0 (或-1.0，如果正在使用一个翻转的投影矩阵进行渲染)，y = Near，z = Far，w = 1.0 + 1.0/Far，其中 Near 和 Far 分别是近裁剪平面和远裁剪平面和摄像机的距离</td></tr><tr><td>_ScreenParams</td><td>float4</td><td>x = width，y = height，z = 1.0 + 1.0/width，w = 1.0 + 1.0/height，其中 width 和 height 分别是该摄像机的渲染目标( render target )的像素宽度和高度</td></tr><tr><td>_ZBufferParams</td><td>float4</td><td>x = 1 - Far/Near，y = Far/Near，z = x/Far，w = y/Far，该变量用于线性化Z缓存中的深度值</td></tr><tr><td>unity_OrthoParams</td><td>float4</td><td>x = width，y = height，z没有定义，w = 1.0（该摄像机是正交摄像机）或 w = 0.0（该摄像机是透视摄像机），其中 width 和 height 是正交投影摄像机的宽度和高度</td></tr><tr><td>unity_CameraProjection</td><td>float4x4</td><td>该摄像机的投影矩阵</td></tr><tr><td>unity_CameraInvProjection</td><td>float4x4</td><td>该摄像机的投影矩阵的逆矩阵</td></tr><tr><td>unity_CameraWorldClipPlanes[6]</td><td>float4</td><td>该摄像机的6个裁剪平面在世界空间下的等式，按如下顺序：左、右、下、上、近、远裁剪平面</td></tr></tbody></table><h2 id="ShaderLab-中属性的类型和-CG-变量类型的匹配关系"><a href="#ShaderLab-中属性的类型和-CG-变量类型的匹配关系" class="headerlink" title="ShaderLab 中属性的类型和 CG 变量类型的匹配关系"></a>ShaderLab 中属性的类型和 CG 变量类型的匹配关系</h2><table><thead><tr><th>ShaderLab 属性类型</th><th>CG 变量类型</th></tr></thead><tbody><tr><td>Color, Vector</td><td>float4, half4, fixed4</td></tr><tr><td>Range, Float</td><td>float, half, fixed</td></tr><tr><td>2D</td><td>sampler2D</td></tr><tr><td>Cube</td><td>samplerCube</td></tr><tr><td>3D</td><td>sampler3D</td></tr></tbody></table><h2 id="Unity-中一些常用的包含文件"><a href="#Unity-中一些常用的包含文件" class="headerlink" title="Unity 中一些常用的包含文件"></a>Unity 中一些常用的包含文件</h2><table><thead><tr><th>文件名</th><th>描述</th></tr></thead><tbody><tr><td>UnityCG.cginc</td><td>包含了最常使用的帮主函数、宏和结构体等</td></tr><tr><td>UnityShaderVariables.cginc</td><td>在编译 Unity Shader 时，会被自动包含金来，包含了许多内置的全局变量，如UNITY_MATRIX_MVP等</td></tr><tr><td>Lighting.cginc</td><td>包含了各种内置的光照模型，如果编写的是 Surface Shader 的话，会自动包含进来</td></tr><tr><td>HLSLSupport.cginc</td><td>在编译 Unity Shader 时，会被自动包含进来，生命了很多用于跨平台编译的宏和定义</td></tr></tbody></table><h2 id="UnityCG-cginc-中的一些常用的结构体"><a href="#UnityCG-cginc-中的一些常用的结构体" class="headerlink" title="UnityCG.cginc 中的一些常用的结构体"></a>UnityCG.cginc 中的一些常用的结构体</h2><table><thead><tr><th>名称</th><th>描述</th><th>包含的变量</th></tr></thead><tbody><tr><td>appdata_base</td><td>可用于顶点着色器的输入</td><td>顶点位置、顶点法线、第一组纹理坐标</td></tr><tr><td>appdata_tan</td><td>可用于顶点着色器的输入</td><td>顶点位置、顶点切线、顶点法线、第一组纹理坐标</td></tr><tr><td>appdata_full</td><td>可用于顶点着色器的输入</td><td>顶点位置、顶点切线、顶点法线、四组（或更多）纹理坐标</td></tr><tr><td>appdata_img</td><td>可用于顶点着色器的输入</td><td>顶点位置、第一组纹理坐标</td></tr><tr><td>v2f_img</td><td>可用于顶点着色器的输入</td><td>裁剪空间中的位置、纹理坐标</td></tr></tbody></table><h2 id="UnityCG-cginc-中的一些常用的帮助函数"><a href="#UnityCG-cginc-中的一些常用的帮助函数" class="headerlink" title="UnityCG.cginc 中的一些常用的帮助函数"></a>UnityCG.cginc 中的一些常用的帮助函数</h2><table><thead><tr><th>函数名</th><th>描述</th></tr></thead><tbody><tr><td>float3 WorldSpaceViewDir (float4 v)</td><td>输入一个模型空间中的顶点位置，返回世界空间中从该点到摄像机的观察方向</td></tr><tr><td>float3 ObjSpaceViewDir (float4 v)</td><td>输入一个模型空间中的顶点位置，返回模型空间中从该点到摄像机的观察方向</td></tr><tr><td>float3 WorldSpaceLightDir (float4 v)</td><td><strong>仅可用于前向渲染中</strong>，输入一个模型空间中的顶点位置，返回世界空间中从该点到光源的光照方向，没有被归一化</td></tr><tr><td>float3 ObjSpaceLightDir (float4 v)</td><td><strong>仅可用于前向渲染中</strong>，输入一个模型空间中的顶点位置，返回模型空间中从该点到光源的光照方向，没有被归一化</td></tr><tr><td>float3 UnityObjectToWorldNormal (float3 norm)</td><td>把法线方向从模型空间转换到世界空间中</td></tr><tr><td>float3 UnityObjectToWorldDir (float3 norm)</td><td>把方向矢量从模型空间变换到世界空间中</td></tr><tr><td>float3 UnityWorldToObjectDir (float3 norm)</td><td>把方向矢量从世界空间变换到模型空间中</td></tr></tbody></table><h2 id="从应用阶段传递模型数据给顶点着色器时-Unity-支持的常用语义"><a href="#从应用阶段传递模型数据给顶点着色器时-Unity-支持的常用语义" class="headerlink" title="从应用阶段传递模型数据给顶点着色器时 Unity 支持的常用语义"></a>从应用阶段传递模型数据给顶点着色器时 Unity 支持的常用语义</h2><table><thead><tr><th>语义</th><th>描述</th></tr></thead><tbody><tr><td>POSITION</td><td>模型空间中的顶点位置，通常是 float4 类型</td></tr><tr><td>NORMAL</td><td>顶点法线，通常是 float3 类型</td></tr><tr><td>TANGENT</td><td>顶点切线，通常是 float4 类型</td></tr><tr><td>TEXCOORDn，如 TEXCOORD0、TEXCOORD1</td><td>该顶点的纹理坐标，TEXCOORD0 表示第一组纹理坐标，以此类推，通常是 float2 或 float4 类型</td></tr><tr><td>COLOR</td><td>顶点颜色，通常是 fixed4或float4 类型</td></tr></tbody></table><h2 id="从顶点着色器传递数据给片元着色器时-Unity-使用的常用语义"><a href="#从顶点着色器传递数据给片元着色器时-Unity-使用的常用语义" class="headerlink" title="从顶点着色器传递数据给片元着色器时 Unity 使用的常用语义"></a>从顶点着色器传递数据给片元着色器时 Unity 使用的常用语义</h2><table><thead><tr><th>语义</th><th>描述</th></tr></thead><tbody><tr><td>SV_POSITION</td><td>裁剪空间中的顶点坐标，结构体重必须包含一个用该语义修饰的变量。等同于 DirectX 9 中的 POSITION，但最好使用 SV_POSITION</td></tr><tr><td>COLOR0</td><td>通常用于输出第一组顶点颜色，但不是必需的</td></tr><tr><td>COLOR1</td><td>通常用于输出第二组顶点颜色，但不是必需的</td></tr><tr><td>TEXCOORD0~TEXCOORD7</td><td>通常用于输出纹理坐标，但不是必需的</td></tr></tbody></table><h2 id="片元着色器输出时-Unity-支持的常用语义"><a href="#片元着色器输出时-Unity-支持的常用语义" class="headerlink" title="片元着色器输出时 Unity 支持的常用语义"></a>片元着色器输出时 Unity 支持的常用语义</h2><table><thead><tr><th>语义</th><th>描述</th></tr></thead><tbody><tr><td>SV_Target</td><td>输出值将会存储到渲染目标 (render target) 中。等同于 DirectX 9 中的 COLOR语义，但最好使用 SV_Target</td></tr></tbody></table><hr><h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><ol><li>冯乐乐，《Unity Shader入门精要》</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;持续更新……&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;Unity内置的变换矩阵&quot;&gt;&lt;a href=&quot;#Unity内置的变换矩阵&quot; class=&quot;headerlink&quot; title=&quot;Unity内置的变换矩阵&quot;&gt;&lt;/a&gt;Unity内置的变换矩阵&lt;/h2&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;变量名&lt;/th&gt;
+&lt;th&gt;描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;UNITY_MATRIX_MVP&lt;/td&gt;
+&lt;td&gt;当前的模型·观察·投影矩阵，用于将顶点/方向矢量从模型空间变换到裁剪空间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;UNITY_MATRIX_MV&lt;/td&gt;
+&lt;td&gt;当前的模型·观察矩阵，用于将顶点顶点/方向矢量从模型空间变换到观察空间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;UNITY_MATRIX_V&lt;/td&gt;
+&lt;td&gt;当前的观察矩阵，用于将顶点顶点/方向矢量从世界空间变换到观察空间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;UNITY_MATRIX_P&lt;/td&gt;
+&lt;td&gt;当前的观察矩阵，用于将顶点顶点/方向矢量从观察空间变换到裁剪空间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;UNITY_MATRIX_VP&lt;/td&gt;
+&lt;td&gt;当前的观察·投影矩阵，用于将顶点顶点/方向矢量从世界空间变换到裁剪空间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;UNITY_MATRIX_T_MV&lt;/td&gt;
+&lt;td&gt;UNITY_MATRIX_MV 的转置矩阵&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;UNITY_MATRIX_IT_MV&lt;/td&gt;
+&lt;td&gt;UNITY_MATRIX_MV 的逆转置矩阵，用于将法线从模型空间变换到观察空间，也可用于得到 UNITY_MATRIX_MV 的逆矩阵&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;_Object2World&lt;/td&gt;
+&lt;td&gt;当前的模型矩阵，用于将顶点顶点/方向矢量从模型空间变换到世界空间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;_World2Object&lt;/td&gt;
+&lt;td&gt;_Object2World的逆矩阵，用于将顶点顶点/方向矢量从世界空间变换到模型空间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+    
+    </summary>
+    
+    
+      <category term="Unity" scheme="http://yoursite.com/tags/Unity/"/>
+    
+      <category term="Shader" scheme="http://yoursite.com/tags/Shader/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>上传苹果商店authenticating with the itunes store问题解决方案</title>
+    <link href="http://yoursite.com/2019/01/07/%E4%B8%8A%E4%BC%A0%E8%8B%B9%E6%9E%9C%E5%95%86%E5%BA%97authenticating-with-the-itunes-store%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
+    <id>http://yoursite.com/2019/01/07/上传苹果商店authenticating-with-the-itunes-store问题解决方案/</id>
+    <published>2019-01-07T09:44:31.000Z</published>
+    <updated>2020-04-14T02:23:14.947Z</updated>
+    
+    <content type="html"><![CDATA[<p>被这个问题折磨的死去活来. 整理一下来自stackoverflow的答案以及个人经验. </p><p><strong>如果你一次都没成功过, 的确要考虑网络问题.</strong></p><p>比如防火墙之类.假如你之前成功过, 但是突然不好使了,可以参考以下答案. </p><hr><h2 id="使用Application-Loader"><a href="#使用Application-Loader" class="headerlink" title="使用Application Loader"></a>使用Application Loader</h2><p>如果你使用Xcode的Organizer上传无效, 可以尝试使用Application Loader. 在Xcode的菜单栏中选择 <code>Xcode-&gt;Open Developer Tool-&gt;Application Loader</code>.<br><a id="more"></a></p><h2 id="更新itmstransporter"><a href="#更新itmstransporter" class="headerlink" title="更新itmstransporter"></a>更新itmstransporter</h2><p>在终端输入以下指令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~  </span><br><span class="line">mv .itmstransporter/ .old_itmstransporter/ </span><br><span class="line">&quot;/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/itms/bin/iTMSTransporter&quot;</span><br></pre></td></tr></table></figure></p><p>等待更新结束后重新打开Application Loader上传.</p><h2 id="修改https端口"><a href="#修改https端口" class="headerlink" title="修改https端口"></a>修改https端口</h2><ol><li>打开Application Loader文件夹位置 : <br><br><code>/Applications/Xcode.app/Contents/Applications/Application Loader.app/Contents/MacOS/itms/java/lib</code></li><li>编辑 <code>net.properties</code> 修改 <code>#https.proxyPort=443</code> 为 <code>https.proxyPort=80</code>保存</li><li>重新打开Application Loader</li></ol><h2 id="开启另一个Application-Loader"><a href="#开启另一个Application-Loader" class="headerlink" title="开启另一个Application Loader"></a>开启另一个Application Loader</h2><p>在第一个Application Loader卡住之后,使用命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open -n -a &apos;Application Loader&apos;</span><br></pre></td></tr></table></figure></p><p>开启一个新的Application Loader程序, 并上传.</p><h2 id="重新生成证书-不推荐"><a href="#重新生成证书-不推荐" class="headerlink" title="重新生成证书(不推荐)"></a>重新生成证书(不推荐)</h2><hr><p><strong>我在尝试除了重新生成证书意外的所有方法之后,依然不行</strong>.毕竟重新生成证书代价太大.后来我开始重新审视这个问题. 参考网上的分析, 卡住是因为客户端询问的信息在服务器返回以后, 并未正确的传递给上传进程. 我想起电脑里有一个老版本的Application Loader. 可能是由于老版本注册监听了某个端口导致新版本无法接收. 于是删除老版本并清空垃圾箱. 然后更新程序并修改端口(按上述方法), 再重启电脑, 一次成功!所以还是建议大家冷静的分析自己可能存在的问题,对症下药.</p><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接:"></a>参考链接:</h3><p><a href="https://stackoverflow.com/questions/19953161/xcode-stuck-at-your-application-is-being-uploaded?noredirect=1&amp;lq=1" target="_blank" rel="noopener">StackOverflow: Xcode stuck at “Your application is being uploaded”</a></p><p><a href="https://stackoverflow.com/questions/22443425/application-loader-stuck-at-authenticating-with-the-itunes-store-when-uploadin?noredirect=1&amp;lq=1" target="_blank" rel="noopener">StackOverflow: Application Loader stuck at “Authenticating with the iTunes store” when uploading an iOS app</a></p><p><a href="https://stackoverflow.com/questions/18971710/application-loader-stuck-at-the-stage-of-authenticating-with-the-itunes-store?noredirect=1&amp;lq=1" target="_blank" rel="noopener">StackOverflow: application loader stuck at the stage of “Authenticating with the iTunes Store”</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;被这个问题折磨的死去活来. 整理一下来自stackoverflow的答案以及个人经验. &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;如果你一次都没成功过, 的确要考虑网络问题.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;比如防火墙之类.假如你之前成功过, 但是突然不好使了,可以参考以下答案. &lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;使用Application-Loader&quot;&gt;&lt;a href=&quot;#使用Application-Loader&quot; class=&quot;headerlink&quot; title=&quot;使用Application Loader&quot;&gt;&lt;/a&gt;使用Application Loader&lt;/h2&gt;&lt;p&gt;如果你使用Xcode的Organizer上传无效, 可以尝试使用Application Loader. 在Xcode的菜单栏中选择 &lt;code&gt;Xcode-&amp;gt;Open Developer Tool-&amp;gt;Application Loader&lt;/code&gt;.&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="AppStore" scheme="http://yoursite.com/tags/AppStore/"/>
+    
+      <category term="Xcode" scheme="http://yoursite.com/tags/Xcode/"/>
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>H5游戏(web-socket)连接TCP服务器解决方案</title>
+    <link href="http://yoursite.com/2018/12/28/H5%E6%B8%B8%E6%88%8F-web-socket-%E8%BF%9E%E6%8E%A5TCP%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
+    <id>http://yoursite.com/2018/12/28/H5游戏-web-socket-连接TCP服务器解决方案/</id>
+    <published>2018-12-28T06:04:08.000Z</published>
+    <updated>2020-04-14T02:23:14.947Z</updated>
+    
+    <content type="html"><![CDATA[<p>伴随着H5技术越来越成熟，微信小程序以及小游戏的兴起，有越来越多的需求将现有的应用程序轻量化。此前公司需求将游戏APP端移植到H5，就产生了如下问题：<strong>H5无法与原有的TCP服务器直接连接，只能采用web-socket</strong>。<br><br>将原有的TCP服务器改写也不太现实。除了耗时耗力以外，我们还希望客户端与H5的玩家可以同服游戏。所以需要一个中转工具来实现web-socket与tcp的互连。由于移植工作只有我一人在做，而我又是客户端程序，对服务器代码不甚了解。于是在网上苦苦寻找之后，找到了这么一个项目。<br></p><p><a href="https://github.com/andrewchambers/ws-tcp-bridge" target="_blank" rel="noopener">https://github.com/andrewchambers/ws-tcp-bridge</a></p><p>非常简单直接! 按照说明中配置即可。每个TCP通信端口需要准备一个空闲的端口来做中转。每个端口需要开启两个中转程序，用于收和发。</p><h1 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h1><p>我们采用在npm中安装的方式，省去配置环境变量的麻烦。此文中服务器环境为Windows。<br><a id="more"></a></p><h2 id="1-安装nodejs"><a href="#1-安装nodejs" class="headerlink" title="1. 安装nodejs"></a>1. 安装nodejs</h2><p>既然用到了npm，就要先安装<a href="https://nodejs.org/zh-cn/" target="_blank" rel="noopener">nodejs</a>。安装过程不再阐述，需要注意的就是配置环境变量要勾选，省去不必要的麻烦。可以参考这篇<a href="http://www.runoob.com/nodejs/nodejs-install-setup.html" target="_blank" rel="noopener">安装教学</a>。<br></p><p>装好nodejs以后，在命令行中键入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm</span><br></pre></td></tr></table></figure></p><p>如果看到了帮助信息，说明安装成功。</p><h2 id="2-安装ws-tcp-bridge"><a href="#2-安装ws-tcp-bridge" class="headerlink" title="2. 安装ws-tcp-bridge"></a>2. 安装ws-tcp-bridge</h2><p>命令行中键入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g ws-tcp-bridge ws-tcp-bridge</span><br></pre></td></tr></table></figure></p><p>安装完成后键入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ws-tcp-bridge</span><br></pre></td></tr></table></figure></p><p>看到如下内容即为安装成功</p><p><img src="/images/h5yxws/01.png" alt></p><h2 id="3-编辑启动批处理文件"><a href="#3-编辑启动批处理文件" class="headerlink" title="3. 编辑启动批处理文件"></a>3. 编辑启动批处理文件</h2><p>在桌面上创建一个<code>wstcpbridge.bat</code>文件，编辑其内容。列如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">start ws-tcp-bridge --method=ws2tcp --lport=27007 --rhost=127.0.0.1:17007</span><br><span class="line">start ws-tcp-bridge --method=tcp2ws --lport=17007 --rhost=ws://127.0.0.1:27007</span><br></pre></td></tr></table></figure></p><p>运行成功后如图</p><p><img src="/images/h5yxws/02.png" alt></p><p>此时我的目标TCP端口为17007，我将27007作为中转端口（要保证该端口未占用），第一个程序用于接收来自H5的web-socket协议转发给tcp服务器，第二个程序将tcp服务器的消息转为web-socket后发送给客户端。</p><p>至此转发就配置完成了。</p><h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><h2 id="异常崩溃"><a href="#异常崩溃" class="headerlink" title="异常崩溃"></a>异常崩溃</h2><p>试运行阶段期间，每隔一段时间，中转程序就会报错崩溃。经查询后发现，是由客户端的异常中断导致的。当客户端向服务器发送消息<code>C2S</code>后，服务器接收到消息并返回消息<code>S2C</code>给中转程序，期间如果客户端断开连接，则中转程序找不到刚才与服务器通信的客户端，程序崩溃。</p><h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>在npm的node_modules目录下找到源码并修改。通常情况下Windows系统的路径为<code>C:\Users\用户名\AppData\Roaming\npm\node_modules\ws-tcp-bridge\ws-tcp-bridge.js</code></p><p>修改代码中所有<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ws.send(data, &#123;any&#125;)</span><br></pre></td></tr></table></figure></p><p>方法，添加错误回调<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 第三个参数为错误回调</span><br><span class="line">ws.send(data, &#123;any&#125;, function(error)&#123;&#125;)</span><br></pre></td></tr></table></figure></p><p>来规避掉客户端异常断线的问题</p><p>修改后再未出现过崩溃的情况。</p><h2 id="客户端IP"><a href="#客户端IP" class="headerlink" title="客户端IP"></a>客户端IP</h2><p>由于采用了中转的方式, 服务器采集到的所有客户端的IP地址都是中转程序的IP。也就是说所有客户端的IP都是相同的。如果应用中有显示用户IP的功能，且该IP为服务器提供则会出现问题。</p><h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><p>可以通过淘宝API <a href="http://ip.taobao.com/service/getIpInfo.php?ip=myip" target="_blank" rel="noopener">http://ip.taobao.com/service/getIpInfo.php?ip=myip</a> 等IP查询接口来获取IP后发送给服务器</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;伴随着H5技术越来越成熟，微信小程序以及小游戏的兴起，有越来越多的需求将现有的应用程序轻量化。此前公司需求将游戏APP端移植到H5，就产生了如下问题：&lt;strong&gt;H5无法与原有的TCP服务器直接连接，只能采用web-socket&lt;/strong&gt;。&lt;br&gt;&lt;br&gt;将原有的TCP服务器改写也不太现实。除了耗时耗力以外，我们还希望客户端与H5的玩家可以同服游戏。所以需要一个中转工具来实现web-socket与tcp的互连。由于移植工作只有我一人在做，而我又是客户端程序，对服务器代码不甚了解。于是在网上苦苦寻找之后，找到了这么一个项目。&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/andrewchambers/ws-tcp-bridge&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/andrewchambers/ws-tcp-bridge&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;非常简单直接! 按照说明中配置即可。每个TCP通信端口需要准备一个空闲的端口来做中转。每个端口需要开启两个中转程序，用于收和发。&lt;/p&gt;
+&lt;h1 id=&quot;使用说明&quot;&gt;&lt;a href=&quot;#使用说明&quot; class=&quot;headerlink&quot; title=&quot;使用说明&quot;&gt;&lt;/a&gt;使用说明&lt;/h1&gt;&lt;p&gt;我们采用在npm中安装的方式，省去配置环境变量的麻烦。此文中服务器环境为Windows。&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="web-socket" scheme="http://yoursite.com/tags/web-socket/"/>
+    
+      <category term="tcp" scheme="http://yoursite.com/tags/tcp/"/>
+    
+      <category term="html5" scheme="http://yoursite.com/tags/html5/"/>
+    
+  </entry>
+  
+</feed>
